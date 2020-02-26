@@ -15,7 +15,7 @@ module.exports = function(app){
             db.push(newNotes)
 
             let id = 1;
-            for(let i = 0; i < id.length; i++){
+            for(let i = 0; i < db.length; i++){
                 db[i].id = id++
             }
 
@@ -39,7 +39,7 @@ module.exports = function(app){
                 return x.id != currentNote;
             });
 
-            fs.writeFile(".db/db.json", JSON.stringify(updateNotes), (err) =>{
+            fs.writeFile("./db/db.json", JSON.stringify(updateNotes), (err) =>{
                 if(err) throw err;
                 return res.status(200).send("Note Deleted!");
             });
