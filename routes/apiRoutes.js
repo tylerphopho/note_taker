@@ -19,10 +19,27 @@ module.exports = function(app){
             }
 
             fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(db),(err) => {
-
-            })
+                if(err) throw err;
+                return res.status(200).send("Note Added!");
+            });
         });
-    })
+    });
 
-}
+    app.delete("/api/notes/:id", (req,res) => {
+        let currentNote = req.params.id;
+        fs.readFile("../db/db.json", "utf-8", (err,data) => {
+            if (err){
+                console.log(err);
+            }
+            let oldDB = JSON.parse(data);
+            let updateNotes = oldDB.filter(x => {
+                return x.id != currentNote;
+            });
+            fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(updateNotes),(err) => {
+                if(err) throw err;
+                return res.status(200).send("Note Deleted!");
+            });
+        });
+    });
+};
 
