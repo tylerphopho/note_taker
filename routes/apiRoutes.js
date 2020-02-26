@@ -6,6 +6,7 @@ module.exports = function(app){
         res.sendFile(path.join(__dirname, "../db/db.json"));
     });
 
+    // Here the we setting up a post route to be able to add a new note.
     app.post("/api/notes", function(req,res){
         let newNotes = req.body;
         fs.readFile(path.join(__dirname, "../db/db.json"), "utf-8", (err,data) => {
@@ -25,9 +26,10 @@ module.exports = function(app){
         });
     });
 
+    // This allows us to delete any existing notes.
     app.delete("/api/notes/:id", (req,res) => {
         let currentNote = req.params.id;
-        fs.readFile("../db/db.json", "utf-8", (err,data) => {
+        fs.readFile("./db/db.json", "utf-8", (err,data) => {
             if (err){
                 console.log(err);
             }
@@ -36,8 +38,8 @@ module.exports = function(app){
             let updateNotes = oldDB.filter(x => {
                 return x.id != currentNote;
             });
-            
-            fs.writeFile("..db/db.json", JSON.stringify(updateNotes), (err) =>{
+
+            fs.writeFile(".db/db.json", JSON.stringify(updateNotes), (err) =>{
                 if(err) throw err;
                 return res.status(200).send("Note Deleted!");
             });
