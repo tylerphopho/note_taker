@@ -31,11 +31,13 @@ module.exports = function(app){
             if (err){
                 console.log(err);
             }
+
             let oldDB = JSON.parse(data);
             let updateNotes = oldDB.filter(x => {
                 return x.id != currentNote;
             });
-            fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(updateNotes),(err) => {
+            
+            fs.writeFile("..db/db.json", JSON.stringify(updateNotes), (err) =>{
                 if(err) throw err;
                 return res.status(200).send("Note Deleted!");
             });
